@@ -5,8 +5,8 @@
 
 #define MAX_ACCOUNTS 100
 #define MAX_TRANSACTIONS 1000
-#define LOCATION_ACC "location"
-#define LOCATION_TRANS "location"
+#define LOCATION_ACC "C:\\Users\\milan\\CLionProjects\\someC\\cmake-build-debug\\accounts.txt"
+#define LOCATION_TRANS "C:\\Users\\milan\\CLionProjects\\someC\\cmake-build-debug\\transactions.txt"
 
 // Structure for account
 typedef struct {
@@ -30,6 +30,39 @@ Transaction transactions[MAX_TRANSACTIONS];
 
 int num_accounts = 0;
 int num_transactions = 0;
+
+// Function prototypes
+void loadAccountsFromFile();
+
+void saveAccountsToFile();
+
+void loadTransactionsFromFile();
+
+void saveTransactionsToFile();
+
+int authenticateUser(char *username, char *password);
+
+void firstLoop(int account);
+
+int main() {
+    loadAccountsFromFile();
+    loadTransactionsFromFile();
+
+    char username[20], password[20];
+    printf("Enter username: ");
+    scanf("%s", username);
+    printf("Enter password: ");
+    scanf("%s", password);
+    int account_id = authenticateUser(username, password);
+    if (account_id != -1) {
+        printf("Authentication successful\n");
+        firstLoop(account_id);
+    } else {
+        printf("Authentication failed\n");
+    }
+
+    return 0;
+}
 
 // Function to load accounts from file
 void loadAccountsFromFile() {
@@ -93,7 +126,6 @@ int authenticateUser(char *username, char *password) {
     return -1;
 }
 
-// Function to deposit money
 void depositMoney(int account_id, double amount) {
     accounts[account_id].balance += amount;
     transactions[num_transactions].id = num_transactions;
@@ -102,9 +134,10 @@ void depositMoney(int account_id, double amount) {
     transactions[num_transactions].amount = amount;
     time(&transactions[num_transactions].timestamp);
     num_transactions++;
+    saveAccountsToFile();
+    saveTransactionsToFile();
 }
 
-// Function to withdraw money
 void withdrawMoney(int account_id, double amount) {
     if (accounts[account_id].balance >= amount) {
         accounts[account_id].balance -= amount;
@@ -114,12 +147,13 @@ void withdrawMoney(int account_id, double amount) {
         transactions[num_transactions].amount = amount;
         time(&transactions[num_transactions].timestamp);
         num_transactions++;
+        saveAccountsToFile();
+        saveTransactionsToFile();
     } else {
         printf("Insufficient balance\n");
     }
 }
 
-// Function to transfer money
 void transferMoney(int sender_id, int receiver_id, double amount) {
     if (accounts[sender_id].balance >= amount) {
         accounts[sender_id].balance -= amount;
@@ -136,18 +170,18 @@ void transferMoney(int sender_id, int receiver_id, double amount) {
         transactions[num_transactions].amount = amount;
         time(&transactions[num_transactions].timestamp);
         num_transactions++;
+        saveAccountsToFile();
+        saveTransactionsToFile();
     } else {
         printf("Insufficient balance\n");
     }
 }
 
-// Function to display account details
 void displayAccountDetails(int account_id) {
     printf("Username: %s\n", accounts[account_id].username);
     printf("Balance: %.2f\n", accounts[account_id].balance);
 }
 
-// Function to display transaction history
 void displayTransactionHistory(int account_id) {
     printf("Transaction History:\n");
     for (int i = 0; i < num_transactions; i++) {
@@ -157,38 +191,30 @@ void displayTransactionHistory(int account_id) {
     }
 }
 
-int main() {
-    loadAccountsFromFile();
-    loadTransactionsFromFile();
-
-    char username[20], password[20];
-    printf("Enter username: ");
-    scanf("%s", username);
-    printf("Enter password: ");
-    scanf("%s", password);
-    int account_id = authenticateUser(username, password);
-    if (account_id != -1) {
-        printf("Authentication successful\n");
-        int choice;
+void firstLoop(int account) {
+    int choice;
+    do {
         printf("1. Deposit\n");
         printf("2. Withdraw\n");
         printf("3. Transfer\n");
         printf("4. Account Details\n");
         printf("5. Transaction History\n");
+        printf("6. Exit\n");
         printf("Enter choice: ");
         scanf("%d", &choice);
-        double amount;
         switch (choice) {
             case 1:
                 printf("Enter amount to deposit: ");
-                scanf("%lf", &amount);
-                depositMoney(account_id, amount);
+                double amount_deposit;
+                scanf("%lf", &amount_deposit);
+                depositMoney(account, amount_deposit);
                 printf("Deposit successful\n");
                 break;
             case 2:
                 printf("Enter amount to withdraw: ");
-                scanf("%lf", &amount);
-                withdrawMoney(account_id, amount);
+                double amount_withdraw;
+                scanf("%lf", &amount_withdraw);
+                withdrawMoney(account, amount_withdraw);
                 printf("Withdrawal successful\n");
                 break;
             case 3:
@@ -196,23 +222,21 @@ int main() {
                 int receiver_id;
                 scanf("%d", &receiver_id);
                 printf("Enter amount to transfer: ");
-                scanf("%lf", &amount);
-                transferMoney(account_id, receiver_id, amount);
+                double amount_transfer;
+                scanf("%lf", &amount_transfer);
+                transferMoney(account, receiver_id, amount_transfer);
                 printf("Transfer successful\n");
                 break;
             case 4:
-                displayAccountDetails(account_id);
+                displayAccountDetails(account);
                 break;
             case 5:
-                displayTransactionHistory(account_id);
+                displayTransactionHistory(account);
                 break;
+            case 6:
+                return;
             default:
                 printf("Invalid choice\n");
         }
-        saveAccountsToFile();
-        saveTransactionsToFile();
-    } else {
-        printf("Authentication failed\n");
-    }
-    return 0;
+    } while (1);
 }

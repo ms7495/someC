@@ -55,7 +55,7 @@ void generateDummyTransactions(int account_id) {
 void writeAccountsToFile() {
     FILE *file = fopen("accounts.txt", "w");
     if (file == NULL) {
-        printf("Error opening file\n");
+        printf("Error opening file accounts.txt\n");
         exit(EXIT_FAILURE);
     }
     for (int i = 0; i < num_accounts; i++) {
@@ -69,7 +69,7 @@ void writeAccountsToFile() {
 void writeTransactionsToFile() {
     FILE *file = fopen("transactions.txt", "w");
     if (file == NULL) {
-        printf("Error opening file\n");
+        printf("Error opening file transactions.txt\n");
         exit(EXIT_FAILURE);
     }
     fclose(file);
