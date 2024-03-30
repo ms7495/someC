@@ -5,8 +5,8 @@
 
 #define MAX_ACCOUNTS 100
 #define MAX_TRANSACTIONS 1000
-#define LOCATION_ACC "C:\\Users\\milan\\CLionProjects\\someC\\cmake-build-debug\\accounts.txt"
-#define LOCATION_TRANS "C:\\Users\\milan\\CLionProjects\\someC\\cmake-build-debug\\transactions.txt"
+#define LOCATION_ACC "Location"
+#define LOCATION_TRANS "Location"
 
 // Structure for account
 typedef struct {
