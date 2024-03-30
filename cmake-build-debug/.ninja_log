@@ -1,0 +1,12 @@
+# ninja log v5
+2	133	7335262131557129	CMakeFiles/someC.dir/BankManagement.c.obj	38f2bfa05cef9b4e
+176	408	7335276978044735	someC.exe	5c5253b7d157cca4
+2	175	7335276975754742	CMakeFiles/someC.dir/DummyMaker.c.obj	2d01eb159db8f159
+1	292	7335277133462022	build.ninja	236df4a376703be1
+1	109	7335277133462022	build.ninja	236df4a376703be1
+2	103	7335277134742052	CMakeFiles/someC.dir/BankManagement.c.obj	38f2bfa05cef9b4e
+104	210	7335277135762028	someC.exe	6b475856f4e9c9d5
+2	134	7335278191399736	CMakeFiles/someC.dir/BankManagement.c.obj	38f2bfa05cef9b4e
+134	235	7335278192379721	someC.exe	6b475856f4e9c9d5
+2	125	7335280973792336	CMakeFiles/someC.dir/BankManagement.c.obj	38f2bfa05cef9b4e
+126	237	7335280974882099	someC.exe	6b475856f4e9c9d5
